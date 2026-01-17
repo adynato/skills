@@ -28,6 +28,7 @@ npx add-skill adynato/skills -a claude-code -a cursor
 | **web-api** | Web API patterns for Next.js - route handlers, validation, auth, error handling |
 | **mobile-api** | API integration for mobile apps - TanStack Query, auth flows, offline support |
 | **github** | GitHub workflow using gh CLI - thorough PR descriptions, stacked PRs for large deliverables |
+| **vercel** | Vercel deployment and configuration - env vars, vercel.json, common errors, CI/CD setup |
 
 ## Usage
 
@@ -40,6 +41,7 @@ Skills activate automatically when your AI agent detects relevant tasks. No expl
 - "Fetch data from the API" → activates **mobile-api** skill
 - "Add a new screen to the app" → activates **mobile** skill
 - "Create a PR for this feature" → activates **github** skill (stacked PRs, descriptions)
+- "Deploy to Vercel" → activates **vercel** skill (env vars, errors, CI/CD)
 
 ## Skill Structure
 
@@ -57,7 +59,9 @@ skills/
 │   └── SKILL.md
 ├── mobile-api/
 │   └── SKILL.md
-└── github/
+├── github/
+│   └── SKILL.md
+└── vercel/
     └── SKILL.md
 ```
 
