@@ -1,5 +1,5 @@
 ---
-name: mobile-api
+name: adynato-mobile-api
 description: API integration patterns for Adynato mobile apps. Covers data fetching with TanStack Query, authentication flows, offline support, error handling, and optimistic updates in React Native/Expo apps. Use when integrating APIs into mobile applications.
 ---
 

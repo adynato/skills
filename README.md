@@ -9,7 +9,7 @@ A collection of AI agent skills for Adynato projects, following the [Agent Skill
 npx add-skill adynato/skills
 
 # Install specific skills
-npx add-skill adynato/skills --skill seo --skill web
+npx add-skill adynato/skills --skill adynato-seo --skill adynato-web
 
 # Install globally (available across all projects)
 npx add-skill adynato/skills -g
@@ -22,46 +22,50 @@ npx add-skill adynato/skills -a claude-code -a cursor
 
 | Skill | Description |
 |-------|-------------|
-| **seo** | SEO requirements including LD+JSON schema.org, backlinks, further reading sections, meta tags, and Open Graph |
-| **web** | Web development conventions, image optimization with img4web, component patterns, and styling |
-| **mobile** | Mobile app development with React Native and Expo - navigation, native APIs, performance |
-| **web-api** | Web API patterns for Next.js - route handlers, validation, auth, error handling |
-| **mobile-api** | API integration for mobile apps - TanStack Query, auth flows, offline support |
-| **github** | GitHub workflow using gh CLI - thorough PR descriptions, stacked PRs for large deliverables |
-| **vercel** | Vercel deployment and configuration - env vars, vercel.json, common errors, CI/CD setup |
+| **adynato-seo** | SEO requirements including LD+JSON schema.org, backlinks, further reading sections, meta tags, and Open Graph |
+| **adynato-web** | Web development conventions, image optimization with img4web, component patterns, and styling |
+| **adynato-mobile** | Mobile app development with React Native and Expo - navigation, native APIs, performance |
+| **adynato-web-api** | Web API patterns for Next.js - route handlers, validation, auth, error handling |
+| **adynato-mobile-api** | API integration for mobile apps - TanStack Query, auth flows, offline support |
+| **adynato-github** | GitHub workflow using gh CLI - thorough PR descriptions, stacked PRs for large deliverables |
+| **adynato-vercel** | Vercel deployment and configuration - env vars, vercel.json, common errors, CI/CD setup |
+| **adynato-cloudflare** | Cloudflare Workers/Pages deployment - wrangler CLI, reading logs, KV/D1/R2, debugging |
 
 ## Usage
 
 Skills activate automatically when your AI agent detects relevant tasks. No explicit invocation needed.
 
 **Trigger phrases:**
-- "Add an image to the hero section" → activates **web** skill (img4web guidance)
-- "Create a blog post" → activates **seo** skill (LD+JSON, backlinks, further reading)
-- "Build a new API endpoint" → activates **web-api** skill
-- "Fetch data from the API" → activates **mobile-api** skill
-- "Add a new screen to the app" → activates **mobile** skill
-- "Create a PR for this feature" → activates **github** skill (stacked PRs, descriptions)
-- "Deploy to Vercel" → activates **vercel** skill (env vars, errors, CI/CD)
+- "Add an image to the hero section" → activates **adynato-web** skill (img4web guidance)
+- "Create a blog post" → activates **adynato-seo** skill (LD+JSON, backlinks, further reading)
+- "Build a new API endpoint" → activates **adynato-web-api** skill
+- "Fetch data from the API" → activates **adynato-mobile-api** skill
+- "Add a new screen to the app" → activates **adynato-mobile** skill
+- "Create a PR for this feature" → activates **adynato-github** skill (stacked PRs, descriptions)
+- "Deploy to Vercel" → activates **adynato-vercel** skill (env vars, errors, CI/CD)
+- "Debug this Cloudflare Worker" → activates **adynato-cloudflare** skill (wrangler tail, logs)
 
 ## Skill Structure
 
 ```
 skills/
-├── seo/
+├── adynato-seo/
 │   ├── SKILL.md
 │   └── references/
 │       └── SCHEMAS.md      # LD+JSON templates
-├── web/
+├── adynato-web/
 │   └── SKILL.md
-├── mobile/
+├── adynato-mobile/
 │   └── SKILL.md
-├── web-api/
+├── adynato-web-api/
 │   └── SKILL.md
-├── mobile-api/
+├── adynato-mobile-api/
 │   └── SKILL.md
-├── github/
+├── adynato-github/
 │   └── SKILL.md
-└── vercel/
+├── adynato-vercel/
+│   └── SKILL.md
+└── adynato-cloudflare/
     └── SKILL.md
 ```
 
@@ -81,7 +85,6 @@ npx add-skill vercel-labs/agent-skills
 |-------|-------------|
 | **react-best-practices** | 40+ performance optimization rules for React and Next.js |
 | **frontend-design** | 100+ UI code audit rules for accessibility, performance, and UX |
-| **vercel-deploy** | Deploy apps to Vercel directly from conversations |
 
 [View on GitHub](https://github.com/vercel-labs/agent-skills)
 
@@ -122,7 +125,7 @@ These skills work with:
 
 ## Contributing
 
-1. Create a new directory in `skills/` with your skill name
+1. Create a new directory in `skills/` with `adynato-` prefix
 2. Add a `SKILL.md` with required frontmatter (`name`, `description`)
 3. Optionally add `scripts/`, `references/`, or `assets/` directories
 4. Submit a pull request

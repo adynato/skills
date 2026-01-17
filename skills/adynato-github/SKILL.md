@@ -1,5 +1,5 @@
 ---
-name: github
+name: adynato-github
 description: GitHub workflow conventions for Adynato projects. Covers creating PRs with gh CLI, writing thorough descriptions, and using stacked PRs for large deliverables. Use when creating pull requests, managing branches, or breaking down large features.
 ---
 

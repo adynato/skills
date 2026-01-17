@@ -1,5 +1,5 @@
 ---
-name: web-api
+name: adynato-web-api
 description: Web API development conventions for Adynato projects. Covers API routes, middleware, authentication, error handling, validation, and response formats for Next.js and Node.js backends. Use when building or modifying API endpoints, server actions, or backend logic.
 ---
 

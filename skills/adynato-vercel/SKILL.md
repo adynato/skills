@@ -1,5 +1,5 @@
 ---
-name: vercel
+name: adynato-vercel
 description: Vercel deployment and configuration for Adynato projects. Covers environment variables, vercel.json, project linking, common errors like VERCEL_ORG_ID/VERCEL_PROJECT_ID, and CI/CD setup. Use when deploying to Vercel, configuring builds, or troubleshooting deployment issues.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: seo
+name: adynato-seo
 description: Handles SEO requirements for all web content including blogs, landing pages, and documentation. Covers LD+JSON schema.org structured data, internal backlinks strategy, further reading sections, meta tags, and Open Graph. Use when creating or editing any public-facing web content, blog posts, or pages that need search visibility.
 ---
 

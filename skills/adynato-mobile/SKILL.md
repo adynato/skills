@@ -1,5 +1,5 @@
 ---
-name: mobile
+name: adynato-mobile
 description: Mobile app development conventions for Adynato projects using React Native and Expo. Covers navigation patterns, native APIs, performance optimization, and platform-specific considerations. Use when building or modifying mobile applications.
 ---
 
