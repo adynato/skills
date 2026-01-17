@@ -27,6 +27,7 @@ npx add-skill adynato/skills -a claude-code -a cursor
 | **mobile** | Mobile app development with React Native and Expo - navigation, native APIs, performance |
 | **web-api** | Web API patterns for Next.js - route handlers, validation, auth, error handling |
 | **mobile-api** | API integration for mobile apps - TanStack Query, auth flows, offline support |
+| **github** | GitHub workflow using gh CLI - thorough PR descriptions, stacked PRs for large deliverables |
 
 ## Usage
 
@@ -38,6 +39,7 @@ Skills activate automatically when your AI agent detects relevant tasks. No expl
 - "Build a new API endpoint" → activates **web-api** skill
 - "Fetch data from the API" → activates **mobile-api** skill
 - "Add a new screen to the app" → activates **mobile** skill
+- "Create a PR for this feature" → activates **github** skill (stacked PRs, descriptions)
 
 ## Skill Structure
 
@@ -53,7 +55,9 @@ skills/
 │   └── SKILL.md
 ├── web-api/
 │   └── SKILL.md
-└── mobile-api/
+├── mobile-api/
+│   └── SKILL.md
+└── github/
     └── SKILL.md
 ```
 
