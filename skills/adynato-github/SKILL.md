@@ -257,3 +257,114 @@ gh pr merge 123 --squash --delete-branch
 # Merge with rebase (for stacks)
 gh pr merge 123 --rebase --delete-branch
 ```
+
+## Addressing PR Comments
+
+When fixing review comments, follow this workflow for **each comment**:
+
+### 1. Make Individual Commits
+
+Create a separate conventional commit for each review comment fix:
+
+```bash
+# Fix first comment
+git add src/auth.ts
+git commit -m "fix: add null check for user token
+
+Addresses review comment about potential null reference"
+
+# Fix second comment
+git add src/api/users.ts
+git commit -m "refactor: extract validation logic to separate function
+
+Addresses review comment about function complexity"
+
+# Fix third comment
+git add src/utils.ts
+git commit -m "fix: handle edge case for empty array
+
+Addresses review comment about missing edge case handling"
+```
+
+**Do NOT batch multiple comment fixes into one commit.** Each fix should be atomic and traceable.
+
+### 2. Reply to the Comment
+
+After committing the fix, reply to the review comment:
+
+**If fixed:**
+```
+Fixed in <commit-sha>
+```
+
+Or with more context:
+```
+Fixed in abc1234 - added null check before accessing token property.
+```
+
+**If not valid or won't fix:**
+```
+I don't think this change is necessary because [reason].
+
+[Explanation of why current implementation is correct/preferred]
+```
+
+Or:
+```
+This is intentional - [explanation]. Happy to discuss further if you disagree.
+```
+
+### 3. Resolve the Comment
+
+After replying, resolve the conversation:
+
+```bash
+# View comments to get comment IDs
+gh api repos/{owner}/{repo}/pulls/{pr}/comments
+
+# Or use the web UI to resolve after replying
+```
+
+In the GitHub web UI: Click "Resolve conversation" after your reply.
+
+### Complete Workflow Example
+
+```bash
+# 1. Read all comments
+gh pr view 123 --comments
+
+# 2. For each valid comment, fix and commit individually
+git add src/auth.ts
+git commit -m "fix: validate token expiry before use
+
+Addresses review feedback on auth token handling"
+
+# 3. Push all fixes
+git push
+
+# 4. Reply to each comment in GitHub UI or via API
+gh api repos/adynato/myrepo/pulls/123/comments/456789/replies \
+  -f body="Fixed in $(git rev-parse --short HEAD)"
+
+# 5. Resolve each conversation in GitHub UI
+```
+
+### Comment Response Templates
+
+| Scenario | Response |
+|----------|----------|
+| Fixed | "Fixed in `abc1234`" |
+| Fixed with explanation | "Fixed in `abc1234` - moved validation to middleware as suggested" |
+| Needs discussion | "I see your point, but [reasoning]. What do you think about [alternative]?" |
+| Won't fix (valid reason) | "Intentionally kept as-is because [reason]. The tradeoff is [explanation]." |
+| Won't fix (out of scope) | "Good catch, but out of scope for this PR. Created #456 to track." |
+| Question/clarification | "Good question - [explanation of why code works this way]" |
+
+### Rules
+
+1. **One commit per comment** - Makes it easy to trace what fixed what
+2. **Always reply** - Never leave comments unaddressed
+3. **Always resolve** - Clean up the conversation thread
+4. **Reference commits** - Include SHA so reviewer can verify the fix
+5. **Be respectful** - Even when disagreeing, explain your reasoning
+6. **Create issues for scope creep** - If a comment suggests something bigger, create an issue instead
