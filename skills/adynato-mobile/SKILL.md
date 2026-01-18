@@ -15,6 +15,145 @@ Use this skill for all Adynato mobile projects built with React Native and Expo.
 - **State**: Zustand or React Context
 - **Data Fetching**: TanStack Query
 
+## API-Driven UI (Critical)
+
+**Maximize API-driven content to enable instant updates without App Store review.**
+
+App Store review can take 1-7 days. Any UI that can be server-controlled should be, so you can update instantly.
+
+### What Should Be API-Driven
+
+| Component | Why |
+|-----------|-----|
+| **Feature flags** | Enable/disable features without release |
+| **Copy/text** | Fix typos, update messaging instantly |
+| **Images/assets** | Swap promotional banners, icons |
+| **Lists/feeds** | Content order, filtering, what's shown |
+| **Navigation items** | Add/remove/reorder tabs and menus |
+| **Form fields** | Add/remove fields, change validation |
+| **Onboarding flows** | A/B test, iterate without releases |
+| **Pricing/plans** | Update pricing, add tiers |
+| **App config** | Timeouts, thresholds, limits |
+
+### What Must Be Native
+
+- Core navigation structure (Expo Router screens)
+- Native module integrations
+- Performance-critical animations
+- Offline-first functionality
+
+### Implementation Pattern
+
+```tsx
+// API returns UI configuration
+interface HomeConfig {
+  sections: Section[]
+  featuredBanner?: Banner
+  quickActions: QuickAction[]
+}
+
+function HomeScreen() {
+  const { data: config } = useQuery({
+    queryKey: ['home', 'config'],
+    queryFn: () => api.get<HomeConfig>('/api/home/config'),
+    staleTime: 1000 * 60 * 5, // Cache 5 min
+  })
+
+  return (
+    <ScrollView>
+      {config?.featuredBanner && (
+        <Banner data={config.featuredBanner} />
+      )}
+      {config?.sections.map(section => (
+        <DynamicSection key={section.id} config={section} />
+      ))}
+    </ScrollView>
+  )
+}
+```
+
+### Feature Flags
+
+```tsx
+// lib/features.ts
+import { useQuery } from '@tanstack/react-query'
+
+interface FeatureFlags {
+  newCheckout: boolean
+  darkMode: boolean
+  betaFeatures: boolean
+}
+
+export function useFeatureFlags() {
+  return useQuery({
+    queryKey: ['features'],
+    queryFn: () => api.get<FeatureFlags>('/api/features'),
+    staleTime: 1000 * 60 * 15, // 15 min
+  })
+}
+
+// Usage
+function CheckoutButton() {
+  const { data: flags } = useFeatureFlags()
+
+  if (flags?.newCheckout) {
+    return <NewCheckoutFlow />
+  }
+  return <LegacyCheckout />
+}
+```
+
+### Remote Config for Copy
+
+```tsx
+// Fetch all app copy from API
+const { data: copy } = useQuery({
+  queryKey: ['copy', locale],
+  queryFn: () => api.get(`/api/copy/${locale}`),
+})
+
+// Use with fallback
+<Text>{copy?.welcomeMessage ?? 'Welcome!'}</Text>
+```
+
+### Server-Driven Lists
+
+```tsx
+// API controls what appears and in what order
+interface FeedConfig {
+  items: FeedItem[]
+  layout: 'grid' | 'list'
+  columns?: number
+}
+
+function Feed() {
+  const { data } = useQuery<FeedConfig>({
+    queryKey: ['feed'],
+    queryFn: () => api.get('/api/feed'),
+  })
+
+  if (data?.layout === 'grid') {
+    return <GridView items={data.items} columns={data.columns} />
+  }
+  return <ListView items={data.items} />
+}
+```
+
+### Cache Strategy
+
+Balance freshness with offline support:
+
+```tsx
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,    // Fresh for 5 min
+      gcTime: 1000 * 60 * 60 * 24, // Keep in cache 24h
+    },
+  },
+})
+```
+
 ## Project Structure
 
 ```
@@ -282,6 +421,7 @@ const apiUrl = Constants.expoConfig?.extra?.apiUrl
 
 Before releasing:
 
+- [ ] **UI is API-driven where possible** (copy, config, feature flags)
 - [ ] Tested on both iOS and Android
 - [ ] Safe area handling on all screens
 - [ ] Keyboard avoiding views where needed
