@@ -30,6 +30,7 @@ npx add-skill adynato/skills -a claude-code -a cursor
 | **adynato-github** | GitHub workflow using gh CLI - thorough PR descriptions, stacked PRs for large deliverables |
 | **adynato-vercel** | Vercel deployment and configuration - env vars, vercel.json, common errors, CI/CD setup |
 | **adynato-cloudflare** | Cloudflare Workers/Pages deployment - wrangler CLI, reading logs, KV/D1/R2, debugging |
+| **adynato-aimake** | AI-powered delivery pipeline - MCP integration, card AI, agentic kanban boards, tool usage |
 
 ## Usage
 
@@ -44,6 +45,7 @@ Skills activate automatically when your AI agent detects relevant tasks. No expl
 - "Create a PR for this feature" → activates **adynato-github** skill (stacked PRs, descriptions)
 - "Deploy to Vercel" → activates **adynato-vercel** skill (env vars, errors, CI/CD)
 - "Debug this Cloudflare Worker" → activates **adynato-cloudflare** skill (wrangler tail, logs)
+- "Connect to aimake via MCP" → activates **adynato-aimake** skill (MCP tools, cards, boards)
 
 ## Skill Structure
 
@@ -65,7 +67,9 @@ skills/
 │   └── SKILL.md
 ├── adynato-vercel/
 │   └── SKILL.md
-└── adynato-cloudflare/
+├── adynato-cloudflare/
+│   └── SKILL.md
+└── adynato-aimake/
     └── SKILL.md
 ```
 
