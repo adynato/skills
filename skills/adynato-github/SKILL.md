@@ -215,8 +215,8 @@ test/what-tested          # Test additions
 # Create PR with labels
 gh pr create --title "feat: thing" --label "enhancement" --label "needs-review"
 
-# Create draft PR
-gh pr create --title "wip: thing" --draft
+# Create open PR
+gh pr create --title "feat: thing"
 
 # Request reviewers
 gh pr edit 123 --add-reviewer @username
