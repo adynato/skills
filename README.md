@@ -22,6 +22,7 @@ npx add-skill adynato/skills -a claude-code -a cursor
 
 | Skill | Description |
 |-------|-------------|
+| **adynato-coding** | General coding conventions for readable, clean code with clear naming and consistent lint/format adherence |
 | **adynato-seo** | SEO requirements including LD+JSON schema.org, backlinks, further reading sections, meta tags, and Open Graph |
 | **adynato-web** | Web development conventions, image optimization with img4web, component patterns, and styling |
 | **adynato-mobile** | Mobile app development with React Native and Expo - navigation, native APIs, performance |
@@ -37,6 +38,7 @@ npx add-skill adynato/skills -a claude-code -a cursor
 Skills activate automatically when your AI agent detects relevant tasks. No explicit invocation needed.
 
 **Trigger phrases:**
+- "Refactor this messy function" → activates **adynato-coding** skill (clean code, naming, linting)
 - "Add an image to the hero section" → activates **adynato-web** skill (img4web guidance)
 - "Create a blog post" → activates **adynato-seo** skill (LD+JSON, backlinks, further reading)
 - "Build a new API endpoint" → activates **adynato-web-api** skill
@@ -51,6 +53,8 @@ Skills activate automatically when your AI agent detects relevant tasks. No expl
 
 ```
 skills/
+├── adynato-coding/
+│   └── SKILL.md
 ├── adynato-seo/
 │   ├── SKILL.md
 │   └── references/
