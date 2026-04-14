@@ -48,10 +48,17 @@ Brief description of what this PR does and why.
 
 ## Testing
 
+### Automated
 - [ ] Login with valid credentials returns token
 - [ ] Login with invalid credentials returns 401
 - [ ] Protected routes reject unauthenticated requests
 - [ ] Logout invalidates token
+
+### Manual
+1. Sign in with a test account
+2. Open a protected route
+3. Confirm authenticated access works
+4. Log out and confirm access is revoked
 
 ## Screenshots
 
@@ -71,9 +78,11 @@ EOF
 |---------|---------------|---------|
 | **Summary** | Always | What and why in 2-3 sentences |
 | **Changes** | Always | List of files/areas modified |
-| **Testing** | Always | How to verify it works |
+| **Testing** | Always | Automated coverage and explicit manual testing steps |
 | **Screenshots** | UI changes | Visual proof of changes |
 | **Related** | If applicable | Linked issues/PRs |
+
+Manual testing steps are required in every PR description. Be specific about the exact flow, commands, requests, accounts, or environment used to verify the change.
 
 ## Stacked PRs
 
@@ -260,7 +269,9 @@ gh pr merge 123 --rebase --delete-branch
 
 ## Addressing PR Comments
 
-When fixing review comments, follow this workflow for **each comment**:
+When fixing review comments, follow this workflow for **each comment**.
+
+If you are given a direct GitHub comment URL, treat it as an instruction to handle that exact thread end-to-end: inspect it, reply on that thread, resolve it if fixed or invalid, and explicitly tell the user if it remains unresolved.
 
 ### 1. Make Individual Commits
 
@@ -288,11 +299,11 @@ Addresses review comment about missing edge case handling"
 
 **Do NOT batch multiple comment fixes into one commit.** Each fix should be atomic and traceable.
 
-### 2. Reply to the Comment
+### 2. Always Reply
 
-After committing the fix, reply to the review comment:
+Every linked comment must get a thread reply. Do not fix code silently and move on.
 
-**If fixed:**
+**If fixed or otherwise addressed:**
 ```
 Fixed in <commit-sha>
 ```
@@ -302,30 +313,38 @@ Or with more context:
 Fixed in abc1234 - added null check before accessing token property.
 ```
 
-**If not valid or won't fix:**
+**If the comment is not valid or no code change is needed:**
 ```
-I don't think this change is necessary because [reason].
+I do not think this change is needed because [reason].
 
-[Explanation of why current implementation is correct/preferred]
-```
-
-Or:
-```
-This is intentional - [explanation]. Happy to discuss further if you disagree.
+Current behavior is intentional/correct for [explanation], so I am resolving this thread.
 ```
 
-### 3. Resolve the Comment
+**If the comment is still valid or not yet addressed:**
+- Leave the thread open in GitHub
+- If a thread reply is useful, keep it focused on status, reasoning, or a clarifying question
+- Explicitly tell the user that this comment remains unresolved and why
 
-After replying, resolve the conversation:
+
+### 3. Resolve Only When Appropriate
+
+After replying:
+
+- Resolve the conversation if the requested change was made
+- Resolve the conversation if the comment is invalid and you explained why no change is needed
+- Do not resolve the conversation if the comment is still valid, blocked, or needs follow-up
+- When a thread remains open, explicitly flag that unresolved status to the user
+- Do not post "this is unresolved" in GitHub just to satisfy this rule
 
 ```bash
 # View comments to get comment IDs
 gh api repos/{owner}/{repo}/pulls/{pr}/comments
 
-# Or use the web UI to resolve after replying
+# Resolve fixed or invalid conversations after replying
+# Leave unresolved conversations open
 ```
 
-In the GitHub web UI: Click "Resolve conversation" after your reply.
+In the GitHub web UI: Click "Resolve conversation" only after your reply if the thread is addressed or invalid.
 
 ### Complete Workflow Example
 
@@ -342,29 +361,32 @@ Addresses review feedback on auth token handling"
 # 3. Push all fixes
 git push
 
-# 4. Reply to each comment in GitHub UI or via API
+# 4. Reply to each linked comment thread in GitHub UI or via API
 gh api repos/adynato/myrepo/pulls/123/comments/456789/replies \
   -f body="Fixed in $(git rev-parse --short HEAD)"
 
-# 5. Resolve each conversation in GitHub UI
+# 5. Resolve only threads that are fixed or invalid
+# Leave still-valid threads open and tell the user they remain unresolved
 ```
 
 ### Comment Response Templates
 
-| Scenario | Response |
-|----------|----------|
-| Fixed | "Fixed in `abc1234`" |
-| Fixed with explanation | "Fixed in `abc1234` - moved validation to middleware as suggested" |
-| Needs discussion | "I see your point, but [reasoning]. What do you think about [alternative]?" |
-| Won't fix (valid reason) | "Intentionally kept as-is because [reason]. The tradeoff is [explanation]." |
-| Won't fix (out of scope) | "Good catch, but out of scope for this PR. Created #456 to track." |
-| Question/clarification | "Good question - [explanation of why code works this way]" |
+| Scenario | GitHub reply | User report |
+|----------|--------------|-------------|
+| Fixed | "Fixed in `abc1234`" | "Resolved." |
+| Fixed with explanation | "Fixed in `abc1234` - moved validation to middleware as suggested" | "Resolved." |
+| Invalid / no change needed | "Current behavior is intentional because [reason], so I am resolving this thread." | "Resolved as invalid / no change needed." |
+| Still open / blocked | "I’m looking into this. [status or blocker]" | "This comment is still unresolved because [reason]." |
+| Needs discussion | "I see your point, but [reasoning]. What do you think about [alternative]?" | "This comment is still unresolved pending discussion." |
+| Won't fix (out of scope) | "Good catch, but out of scope for this PR. Created #456 to track." | "This comment is still unresolved for this PR; follow-up tracked in #456." |
+| Question/clarification | "Good question - [explanation of why code works this way]" | "Resolved after clarification." |
 
 ### Rules
 
 1. **One commit per comment** - Makes it easy to trace what fixed what
-2. **Always reply** - Never leave comments unaddressed
-3. **Always resolve** - Clean up the conversation thread
-4. **Reference commits** - Include SHA so reviewer can verify the fix
-5. **Be respectful** - Even when disagreeing, explain your reasoning
-6. **Create issues for scope creep** - If a comment suggests something bigger, create an issue instead
+2. **Always reply on the linked thread** - Never leave comment URLs unaddressed
+3. **Resolve only when fixed or invalid** - Do not close valid open feedback
+4. **If still valid, flag it to the user** - Leave the thread open and report the unresolved status back to the user
+5. **Reference commits** - Include SHA so reviewer can verify the fix
+6. **Be respectful** - Even when disagreeing, explain your reasoning
+7. **Create issues for scope creep** - If a comment suggests something bigger, create an issue instead
