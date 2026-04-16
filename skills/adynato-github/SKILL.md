@@ -111,12 +111,14 @@ PR 4: Add dashboard tests (stacked on PR 3)
 
 ### Creating Stacked PRs
 
+Use `<default-base-branch>` for the repository's integration branch: `dev` when it exists, otherwise `main`.
+
 ```bash
 # PR 1: Base branch
 git checkout -b feat/user-api
 # ... make changes ...
 git push -u origin feat/user-api
-gh pr create --base main --title "feat: add user API endpoints"
+gh pr create --base <default-base-branch> --title "feat: add user API endpoints"
 
 # PR 2: Stack on PR 1
 git checkout -b feat/dashboard-data feat/user-api
@@ -167,11 +169,11 @@ When base PR merges:
 ```bash
 # Rebase onto new base
 git checkout feat/dashboard-data
-git rebase main
+git rebase <default-base-branch>
 git push --force-with-lease
 
 # Update PR base branch
-gh pr edit 102 --base main
+gh pr edit 102 --base <default-base-branch>
 ```
 
 ## PR Size Guidelines
@@ -218,6 +220,24 @@ docs/what-documented      # Documentation
 test/what-tested          # Test additions
 ```
 
+## Starting New Work
+
+When a new prompt arrives:
+
+- If the current branch already matches the work, continue on that branch
+- Otherwise, switch back to the repository's integration branch: prefer `dev`, otherwise `main`
+- Pull that branch before starting the new task
+- Create a fresh branch for the new work and open a new PR back into that same branch
+- Do not create a new git worktree unless the user explicitly requests one
+
+```bash
+git checkout <default-base-branch>
+git pull --ff-only
+git checkout -b feat/my-change
+gh pr create --base <default-base-branch> --title "feat: describe change"
+```
+
+
 ## Common gh Commands
 
 ```bash
@@ -257,7 +277,7 @@ gh pr view 123 --comments
 1. **Self-review first** - Read your own diff before requesting review
 2. **CI must pass** - Don't request review until checks are green
 3. **Respond to feedback** - Address or discuss all comments
-4. **Squash on merge** - Keep main history clean
+4. **Squash on merge** - Keep default branch history clean
 
 ```bash
 # Merge with squash (preferred)
