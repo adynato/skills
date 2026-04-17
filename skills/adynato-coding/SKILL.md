@@ -42,6 +42,12 @@ Names should tell the reader what something is and why it exists.
 - When lint or formatting rules disagree with local preference, follow the repo
 - If a collaborative project appears to lack linting or formatting, suggest adding it instead of relying on personal taste
 
+## Before Running Local Scripts
+
+- Before running a bin script or inline CLI script, check for a README in the directory it lives in or is being invoked from
+- Follow documented usage, flags, environment requirements, and warnings before executing it
+- Do not guess at script behavior when the local documentation can answer it
+
 ## Comment for Intent
 
 - Use comments to explain intent, invariants, tradeoffs, and non-obvious behavior
