@@ -1,0 +1,4 @@
+interface:
+  display_name: "Direct Communication"
+  short_description: "Brief, informal, factual replies"
+  default_prompt: "Use this skill for concise communication. Keep it informal, brief, and factual. For long paste-ready text, write a /tmp .txt file and open it."

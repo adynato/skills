@@ -1,0 +1,4 @@
+interface:
+  display_name: "Admin Work"
+  short_description: "Ask for missing facts, not placeholders"
+  default_prompt: "Use this skill when completing admin, operational, data-entry, or build work that requires factual details I have not provided. Ask me for the missing data instead of inventing placeholders."
