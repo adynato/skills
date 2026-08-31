@@ -237,6 +237,28 @@ git checkout -b feat/my-change
 gh pr create --base <default-base-branch> --title "feat: describe change"
 ```
 
+## PR and CI Loop
+
+Create open PRs by default. Use draft PRs only when the user explicitly asks for a draft, work-in-progress PR, or an intentionally unready review surface.
+
+After opening or updating a PR:
+
+1. Check whether CI exists for the PR.
+2. If checks are pending, wait for the CI loop to complete.
+3. If checks fail, inspect the failing job logs.
+4. Fix valid issues, commit the fixes, push the branch, and wait for CI again.
+5. Repeat until checks pass, no checks are configured, or the remaining failure is clearly outside the PR's code changes.
+
+```bash
+gh pr create --base <default-base-branch> --title "feat: describe change"
+gh pr checks <pr-number> --watch
+gh run view <run-id> --log-failed
+```
+
+When a failure is a real code or test issue, fix it before reporting completion. When a failure is a flaky, infrastructure, permission, quota, or environment issue, state that clearly and leave the PR open unless the user explicitly asks for a different path.
+
+If the user asks you to merge the PR, merge only after the PR is mergeable and any configured required checks have passed. If repository policy, review requirements, branch protection, or permissions block the merge, report the exact blocker.
+
 
 ## Common gh Commands
 
@@ -275,7 +297,7 @@ gh pr view 123 --comments
 ## Review Process
 
 1. **Self-review first** - Read your own diff before requesting review
-2. **CI must pass** - Don't request review until checks are green
+2. **CI loop must complete** - Wait for configured checks and fix valid failures before handing off
 3. **Respond to feedback** - Address or discuss all comments
 4. **Squash on merge** - Keep default branch history clean
 
